@@ -59,7 +59,7 @@ The checklist and saved paths use localStorage, with a visible message when stor
 - Individual original pathway pages linked from each revised guide.
 - https://acemv.org/trades/electrician/
 - https://acemv.org/ece/
-- https://www.capecod.edu/ahec-community-initiatives/medical-interpreter-certificate-program/
+- https://capecod.edu/ccape/community-career-and-professional-education/cape-and-islands-area-health-education-center/medical-interpreter-certificate/
 - https://www.massbay.edu/academics/automotive
 
 Original photographs and brand assets remain the property of their respective rights holders and are reused for this requested Island Futures implementation. Fonts are locally served Google Fonts (Manrope and Raleway).
@@ -74,3 +74,5 @@ This is a proposed replacement hosted separately on Vercel; it does not change m
 - Browser checks cover career search, zero-result recovery, career filters, linked program filters, provider links, saved path persistence, application checklist persistence, and program-specific guidance prefills.
 - Desktop and mobile layouts, menu controls, console errors, and horizontal overflow were checked.
 - Email drafts and external applications were not sent or submitted.
+
+A live outbound link check identified three original 404 destinations. The MV Times, Vineyard Gazette, and medical interpreter links were updated to current destinations; medical interpreter details were refreshed from the new provider page. Some external sites block automated requests, so reachability is not a guarantee of current eligibility or openings.
