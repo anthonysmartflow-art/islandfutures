@@ -1,0 +1,6 @@
+import {readdir,readFile,access} from 'node:fs/promises';
+import {join} from 'node:path';
+const files=[];async function walk(dir){for(const entry of await readdir(dir,{withFileTypes:true})){const p=join(dir,entry.name);if(entry.isDirectory())await walk(p);else files.push(p)}}await walk('dist');let errors=[];let links=0;
+for(const f of files.filter(f=>f.endsWith('.html'))){const html=await readFile(f,'utf8');for(const match of html.matchAll(/(?:href|src)="(\/[^"#?]*)(?:[^\"]*)"/g)){links++;const p=match[1];let target=p==='/'?'dist/index.html':'dist'+p;if(!/\.[a-z0-9]+$/i.test(target))target+='.html';try{await access(target)}catch{errors.push(`${f}: missing ${p}`)}}if(!html.includes('http-equiv="refresh"')&&(!html.includes('<h1>')||!html.includes('<title>')))errors.push(f+': missing page heading/title');}
+const directory=JSON.parse(await readFile('dist/directory.json','utf8'));for(const type of ['careers','programs']){const ids=directory[type].map(x=>x.id);if(new Set(ids).size!==ids.length)errors.push('Duplicate '+type+' IDs')}
+if(errors.length){console.error(errors.join('\n'));process.exit(1)}console.log(`Passed: ${files.filter(f=>f.endsWith('.html')).length} HTML routes, ${links} internal references, ${directory.careers.length} careers and ${directory.programs.length} programs.`);

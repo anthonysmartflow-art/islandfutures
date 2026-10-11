@@ -1,0 +1,5 @@
+import http from 'node:http';
+import {readFile,stat} from 'node:fs/promises';
+import {resolve,extname,sep} from 'node:path';
+const base=resolve('dist'),port=Number(process.env.PORT||4173);
+http.createServer(async(req,res)=>{let path;try{path=decodeURIComponent(new URL(req.url,'http://localhost').pathname)}catch{res.writeHead(400).end();return}let file=resolve(base,'.'+(path==='/'?'/index.html':path));if(file!==base&&!file.startsWith(base+sep)){res.writeHead(403).end();return}if(!extname(file))file+='.html';try{const data=await readFile(file);const mime={'.html':'text/html; charset=utf-8','.css':'text/css','.js':'application/javascript','.json':'application/json','.jpg':'image/jpeg','.svg':'image/svg+xml','.woff2':'font/woff2','.txt':'text/plain'};res.writeHead(200,{'Content-Type':mime[extname(file)]||'application/octet-stream'}).end(data)}catch{res.writeHead(404,{'Content-Type':'text/html'}).end(await readFile(resolve(base,'404.html')))}}).listen(port,'127.0.0.1',()=>console.log(`Local: http://127.0.0.1:${port}`));
